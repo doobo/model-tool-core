@@ -1,6 +1,9 @@
 package javax.doobo.handler;
 
 
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * 接口功能描述
  *
@@ -17,8 +20,8 @@ public class Mb3Handler extends MbHandler{
     }
 
     @Override
-    public String getMapKey() {
-        return Mb2Handler.class.getSimpleName();
+    public Set<String> getMapKeys() {
+        return Collections.singleton(Mb2Handler.class.getSimpleName());
     }
 
     @Override

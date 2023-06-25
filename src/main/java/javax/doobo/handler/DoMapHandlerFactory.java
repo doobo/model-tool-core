@@ -32,6 +32,17 @@ public abstract class DoMapHandlerFactory<R, H extends DoMapHandler<R>> extends 
         if(Objects.nonNull(handler) &&
                 Objects.equals(handler._rsType(), _rsType())){
             synchronized (this) {
+                Set<String> mapKeys = handler.getMapKeys();
+                if(Objects.nonNull(mapKeys) && !mapKeys.isEmpty()){
+                    mapKeys.forEach(key -> {
+                            handlerMap.add(key, handler);
+                            List<H> tmpList = handlerMap.get(key);
+                            if (Objects.nonNull(tmpList) && tmpList.size() > 1) {
+                                tmpList.sort(Comparator.comparing(H::getPhase));
+                            }
+                        });
+                    return;
+                }
                 handlerMap.add(handler.getMapKey(), handler);
                 List<H> tmpList = handlerMap.get(handler.getMapKey());
                 if (Objects.nonNull(tmpList) && tmpList.size() > 1) {
@@ -58,7 +69,14 @@ public abstract class DoMapHandlerFactory<R, H extends DoMapHandler<R>> extends 
             return;
         }
         synchronized (this) {
-            handlers.forEach(m -> handlerMap.add(m.getMapKey(), m));
+            handlers.forEach(m -> {
+                Set<String> mapKeys = m.getMapKeys();
+                if(Objects.nonNull(mapKeys) && !mapKeys.isEmpty()){
+                    mapKeys.forEach(key -> handlerMap.add(key, m));
+                }else{
+                    handlerMap.add(m.getMapKey(), m);
+                }
+            });
             handlerMap.forEach((key, hList) -> {
                 if (Objects.nonNull(hList) && hList.size() > 1) {
                     hList.sort(Comparator.comparing(H::getPhase));

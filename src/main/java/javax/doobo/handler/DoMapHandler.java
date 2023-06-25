@@ -1,5 +1,8 @@
 package javax.doobo.handler;
 
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * 多Key列表处理器,适用于条件简单固定的场景
  *
@@ -25,6 +28,13 @@ public interface DoMapHandler<R> {
      */
     default String getMapKey(){
         return DoMapHandler.class.getName();
+    }
+
+    /**
+     * 获取执行KEY集合
+     */
+    default Set<String> getMapKeys(){
+        return Collections.emptySet();
     }
 
     /**
