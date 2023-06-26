@@ -139,14 +139,14 @@ public class DoTemplate<T> implements Serializable {
     }
 
     @Override
-	public String toString() {
-		return "{" +
-			", state=" + state +
-			", code='" + code + '\'' +
-			", message='" + message + '\'' +
-			", errorCode='" + subCode + '\'' +
-			", errorMessage='" + subMsg + '\'' +
-			", clueId='" + clueId + '\'' +
-			'}';
-	}
+    public String toString() {
+        return "DoTemplate{" +
+                "state=" + state +
+                ", message='" + message + '\'' +
+                ", code='" + code + '\'' +
+                ", subCode='" + subCode + '\'' +
+                ", subMsg='" + subMsg + '\'' +
+                ", clueId='" + clueId + '\'' +
+                '}';
+    }
 }

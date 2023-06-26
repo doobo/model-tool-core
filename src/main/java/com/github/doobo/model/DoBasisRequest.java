@@ -2,6 +2,7 @@ package com.github.doobo.model;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * 包装返回体
@@ -14,7 +15,12 @@ public abstract class DoBasisRequest<Rsp> implements IBasisRequest<Rsp>, Seriali
      * 返回类型
      */
     public Class<Rsp> _rsType(){
-        //noinspection unchecked
-        return (Class<Rsp>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Type superClass = this.getClass().getGenericSuperclass();
+        if (superClass instanceof Class) {
+            throw new IllegalArgumentException("No Rsp info in DoBasisRequest");
+        } else {
+            //noinspection unchecked
+            return (Class<Rsp>) ((ParameterizedType)superClass).getActualTypeArguments()[0];
+        }
     }
 }
