@@ -11,20 +11,40 @@
  <dependency>
    <groupId>com.github.doobo</groupId>
    <artifactId>model-tool-core</artifactId>
-   <version>1.0</version>
+   <version>1.1</version>
  </dependency>
 ```
 
 #### 在项目中使用
 ```code
  public void testBHandler(){
-        MbHandlerFactory factory = new MbHandlerFactory();
-        factory.addHandler(new Mb1Handler());
-        factory.addHandler(new Mb2Handler());
-        factory.addHandler(new Mb3Handler());
-        MaHandler.ARequest request = new MaHandler.ARequest();
-        request.setName("Mb2Handler");
-        String name = factory.executeHandler(request, MbHandler::sayName);
-        System.out.println(name);//输出:Mb3Handler,看test用例
-    }
+    MbHandlerFactory factory = new MbHandlerFactory();
+    factory.addHandler(new Mb1Handler());
+    factory.addHandler(new Mb2Handler());
+    factory.addHandler(new Mb3Handler());
+    MaHandler.ARequest request = new MaHandler.ARequest();
+    request.setName("Mb2Handler");
+    String name = factory.executeHandler(request, MbHandler::sayName);
+    System.out.println(name);//输出:Mb3Handler,看test用例
+}
+
+/**
+ * 测试随机列表
+ */
+public void testRandom(){
+    WeightRandom<String> weightRandom = WeightRandomUtils.ofList(Arrays.asList("a", "b", "c", "d", "e", "f", "g"));
+    System.out.println(weightRandom.getElementsByFixed(3));
+    System.out.println(weightRandom.getElementsByFixed(3));
+    System.out.println(weightRandom.getElementsByFixed(3));
+    System.out.println(weightRandom.getElementsByFixed(3));
+    System.out.println(weightRandom.getElementsByFixed(3));
+}
+
+/**
+* 公共返回模型
+*/
+public void testTemplate(){
+    DoTemplate<Boolean> template = DoResultUtils.of(true);
+    System.out.println(JSON.toJSONString(template));
+}
 ```

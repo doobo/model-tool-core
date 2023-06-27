@@ -1,12 +1,16 @@
 package com.github.doobo;
 
 import com.alibaba.fastjson.JSON;
+import com.github.doobo.model.WeightRandom;
 import com.github.doobo.utils.DoResultUtils;
+import com.github.doobo.utils.WeightRandomUtils;
 import junit.framework.TestCase;
 
 import com.github.doobo.map.DoMultiValueMap;
 import com.github.doobo.map.LinkedMultiValueMap;
 import com.github.doobo.model.DoTemplate;
+
+import java.util.Arrays;
 
 /**
  * 接口功能描述
@@ -31,5 +35,17 @@ public class CommonTests extends TestCase {
         map.add("a", 2);
         map.add("a", 3);
         System.out.println(map.get("a"));
+    }
+
+    /**
+     * 测试随机列表
+     */
+    public void testRandom(){
+        WeightRandom<String> weightRandom = WeightRandomUtils.ofList(Arrays.asList("a", "b", "c", "d", "e", "f", "g"));
+        System.out.println(weightRandom.getElementsByFixed(3));
+        System.out.println(weightRandom.getElementsByFixed(3));
+        System.out.println(weightRandom.getElementsByFixed(3));
+        System.out.println(weightRandom.getNoRepeatElementsByFixed(3));
+        System.out.println(weightRandom.getNoRepeatElementsByDecrement(3));
     }
 }
