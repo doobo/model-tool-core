@@ -2,6 +2,8 @@ package com.github.doobo;
 
 import com.alibaba.fastjson.JSON;
 import com.github.doobo.model.WeightRandom;
+import com.github.doobo.utils.DoDateSplitUtils;
+import com.github.doobo.utils.DoDateUtils;
 import com.github.doobo.utils.DoResultUtils;
 import com.github.doobo.utils.WeightRandomUtils;
 import junit.framework.TestCase;
@@ -11,6 +13,7 @@ import com.github.doobo.map.LinkedMultiValueMap;
 import com.github.doobo.model.DoTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 接口功能描述
@@ -47,5 +50,19 @@ public class CommonTests extends TestCase {
         System.out.println(weightRandom.getElementsByFixed(3));
         System.out.println(weightRandom.getNoRepeatElementsByFixed(3));
         System.out.println(weightRandom.getNoRepeatElementsByDecrement(3));
+    }
+
+    /**
+     * 测试日期工具
+     */
+    public void testDateSplit(){
+        List<DoDateSplitUtils.DateSplit> dateSplits = DoDateSplitUtils.splitByDay(
+                DoDateUtils.getDate("2023-05-28")
+                , DoDateUtils.getDate("2023-06-28")
+                , 2
+        );
+        dateSplits.forEach(m ->{
+            System.out.println(m.getStartDateTimeStr() + "-->" + m.getEndDateTimeStr());
+        });
     }
 }

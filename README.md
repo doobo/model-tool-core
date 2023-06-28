@@ -47,4 +47,18 @@ public void testTemplate(){
     DoTemplate<Boolean> template = DoResultUtils.of(true);
     System.out.println(JSON.toJSONString(template));
 }
+
+/**
+ * 测试日期工具
+ */
+public void testDateSplit(){
+    List<DoDateSplitUtils.DateSplit> dateSplits = DoDateSplitUtils.splitByDay(
+            DoDateUtils.getDate("2023-05-28")
+            , DoDateUtils.getDate("2023-06-28")
+            , 2
+    );
+    dateSplits.forEach(m ->{
+        System.out.println(m.getStartDateTimeStr() + "-->" + m.getEndDateTimeStr());
+    });
+}
 ```
