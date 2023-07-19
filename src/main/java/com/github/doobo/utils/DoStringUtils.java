@@ -1,9 +1,15 @@
 package com.github.doobo.utils;
 
+import lombok.SneakyThrows;
+
 import java.lang.reflect.Array;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public abstract class DoStringUtils {
+
+    private static char[] digits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
@@ -229,5 +235,105 @@ public abstract class DoStringUtils {
 
     public static String arrayToCommaDelimitedString(Object[] arr) {
         return arrayToDelimitedString(arr, ",");
+    }
+
+    public static boolean isNumeric(CharSequence cs) {
+        if (isEmpty(cs)) {
+            return false;
+        } else {
+            int sz = cs.length();
+
+            for(int i = 0; i < sz; ++i) {
+                if (!Character.isDigit(cs.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    public static boolean isNumericSpace(CharSequence cs) {
+        if (cs == null) {
+            return false;
+        } else {
+            int sz = cs.length();
+            for(int i = 0; i < sz; ++i) {
+                if (!Character.isDigit(cs.charAt(i)) && cs.charAt(i) != ' ') {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    /**
+     * 获取消息摘要
+     */
+    @SneakyThrows
+    public static String sha(String src, String shaType){
+        try {
+            if(isEmpty(src)){
+                return null;
+            }
+            //我们可以通过SHA\SHA-1\SHA-384\SHA-256\SHA-512来获得不同的消息摘要密钥
+            shaType = isEmpty(shaType)? "SHA-1" : shaType;
+            MessageDigest digest = MessageDigest.getInstance(shaType);
+            digest.update(src.getBytes());
+            return encodeHexString(digest.digest());
+        } catch (NoSuchAlgorithmException e) {
+            throw e;
+        }
+    }
+
+    public static String sha(String src){
+        return sha(src, null);
+    }
+
+    public static char[] encodeHex(byte[] data) {
+        if(Objects.isNull(data)){
+            return new char[0];
+        }
+        int l = data.length;
+        char[] out = new char[l << 1];
+        int i = 0;
+        for(int var4 = 0; i < l; ++i) {
+            out[var4++] = digits[(240 & data[i]) >>> 4];
+            out[var4++] = digits[15 & data[i]];
+        }
+        return out;
+    }
+
+    public static byte[] decodeHex(char[] data) throws IllegalArgumentException {
+        if(Objects.isNull(data)){
+            return new byte[0];
+        }
+        int l = data.length;
+        if ((l & 1) != 0) {
+            throw new IllegalArgumentException("Odd number of characters.");
+        } else {
+            byte[] out = new byte[l >> 1];
+            int i = 0;
+            for(int j = 0; j < l; ++i) {
+                int f = Character.digit(data[j++], 16) << 4;
+                f |= Character.digit(data[j++], 16);
+                out[i] = (byte)(f & 255);
+            }
+            return out;
+        }
+    }
+
+    public static String encodeHexString(byte[] data) {
+        char[] chars = encodeHex(data);
+        return new String(chars);
+    }
+
+    public byte[] decode(String string) throws IllegalArgumentException {
+        try {
+            char[] charArray = Objects.nonNull(string)
+                    ? string.toCharArray() : null;
+            return decodeHex(charArray);
+        } catch (ClassCastException var3) {
+            throw new IllegalArgumentException(var3.getMessage());
+        }
     }
 }

@@ -2,10 +2,7 @@ package com.github.doobo;
 
 import com.alibaba.fastjson.JSON;
 import com.github.doobo.model.WeightRandom;
-import com.github.doobo.utils.DoDateSplitUtils;
-import com.github.doobo.utils.DoDateUtils;
-import com.github.doobo.utils.DoResultUtils;
-import com.github.doobo.utils.WeightRandomUtils;
+import com.github.doobo.utils.*;
 import junit.framework.TestCase;
 
 import com.github.doobo.map.DoMultiValueMap;
@@ -64,5 +61,11 @@ public class CommonTests extends TestCase {
         dateSplits.forEach(m ->{
             System.out.println(m.getStartDateTimeStr() + "-->" + m.getEndDateTimeStr());
         });
+    }
+
+    public void testSha(){
+        System.out.println(DoStringUtils.sha("abc"));
+        System.out.println(DoStringUtils.sha("abc"));
+        System.out.println(DoStringUtils.sha("bbc"));
     }
 }

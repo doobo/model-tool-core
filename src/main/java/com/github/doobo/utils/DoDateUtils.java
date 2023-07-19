@@ -49,7 +49,7 @@ public abstract class DoDateUtils {
     /**
      * 字符串转本地时间
      */
-    public static LocalDate getLocalDate(String date,String format){
+    public static LocalDate getLocalDate(String date, String format){
         format = format == null? DateFormat.y_m_d.getFt():format;
         try {
             return LocalDate.parse(date,DateTimeFormatter.ofPattern(format));
@@ -69,7 +69,7 @@ public abstract class DoDateUtils {
     /**
      * 字符串转日期
      */
-    public static Date getDate(String date,String format){
+    public static Date getDate(String date, String format){
         format = format == null? DateFormat.y_m_d.getFt():format;
         SimpleDateFormat fm = new SimpleDateFormat(format);
         try {
@@ -117,6 +117,22 @@ public abstract class DoDateUtils {
     }
 
     /**
+     * 获取当天开始时间
+     */
+    public static Date getStartDate() {
+        return getStartDate(null);
+    }
+
+    /**
+     * 获取开始时间
+     */
+    public static Date getStartDate(Date dayTime) {
+        Date date = Objects.isNull(dayTime)? new Date() : dayTime;
+        SimpleDateFormat sdf = new SimpleDateFormat(DateFormat.y_m_d.getFt());
+        return getDate(sdf.format(date));
+    }
+
+    /**
      * 将带有纳秒的时间字符串转换成LocalDateTime
      */
     public static LocalDateTime timestampStrToLocalDateTime(String str){
@@ -134,7 +150,7 @@ public abstract class DoDateUtils {
     /**
      * localDateTime时间格式化
      */
-    public static String localDateTimeStr(LocalDateTime localDateTime,String format){
+    public static String localDateTimeStr(LocalDateTime localDateTime, String format){
         if(localDateTime == null){
             return null;
         }
