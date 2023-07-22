@@ -68,4 +68,10 @@ public class CommonTests extends TestCase {
         System.out.println(DoStringUtils.sha("abc"));
         System.out.println(DoStringUtils.sha("bbc"));
     }
+
+    public void testNumeric(){
+        System.out.println(DoStringUtils.isPointNumeric("1.123.2"));
+        System.out.println(DoStringUtils.isPointNumeric("1.123"));
+        System.out.println(DoStringUtils.isPointNumeric("1.123."));
+    }
 }

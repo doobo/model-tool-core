@@ -267,6 +267,23 @@ public abstract class DoStringUtils {
     }
 
     /**
+     * 兼容包含小数点的数字
+     */
+    public static boolean isPointNumeric(CharSequence cs) {
+        if (cs == null) {
+            return false;
+        } else {
+            String rs = cs.toString();
+            if(rs.contains(".") && rs.split("[.]").length > 2){
+                return false;
+            }else if(rs.startsWith(".") || rs.endsWith(".")){
+                return false;
+            }
+            return isNumeric(rs.replace(".", ""));
+        }
+    }
+
+    /**
      * 获取消息摘要
      */
     @SneakyThrows
