@@ -1,6 +1,5 @@
 package com.github.doobo.model;
 
-
 import com.github.doobo.utils.DoStringUtils;
 
 import java.util.Collection;

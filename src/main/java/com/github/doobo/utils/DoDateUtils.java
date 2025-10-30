@@ -220,6 +220,21 @@ public abstract class DoDateUtils {
     }
 
     /**
+     * 获取字符串类型的格式
+     */
+    public static String formatDateByYmdHms(Date date) {
+        date = date == null?Calendar.getInstance().getTime():date;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(DateFormat.y_m_d_hms.getFt());
+            return sdf.format(date);
+        } catch (Exception ex) {
+            log.error("formatDateByYmdHmsError:{},", date, ex);
+
+        }
+        return null;
+    }
+
+    /**
      * 获取最大日期
      */
     public static Date getMaxDate(Date... params){
@@ -393,5 +408,63 @@ public abstract class DoDateUtils {
             c.add(calendarField, amount);
             return c.getTime();
         }
+    }
+
+    /**
+     * 字符串时间格式化成国际通用时间，指定时区
+     */
+    public static String formatDateByUtcTime(String dateStr, String utcTime){
+        if(DoObjectUtils.isNotBlank(dateStr)){
+            return null;
+        }
+        LocalDateTime localDateTime  = null;
+        if(dateStr.contains("-") && dateStr.length() == 16){
+            localDateTime = LocalDateTime.parse(dateStr,
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        }else {
+            localDateTime = LocalDateTime.parse(dateStr,
+                    DateTimeFormatter.ofPattern(DateFormat.y_m_d_hms.getFt()));
+        }
+        ZoneId zoneId = ZoneId.of(utcTime);
+        ZoneOffset mexicoOffset = zoneId.getRules().getOffset(Instant.now());
+        OffsetDateTime offsetDateTime = OffsetDateTime.of(localDateTime, mexicoOffset);
+        return offsetDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    }
+
+    /**
+     * 标准ISO 8601 UTC时间转换Date
+     */
+    public static Date convertUtcTime(String utcTime){
+        if(DoObjectUtils.isBlank(utcTime)){
+            return null;
+        }
+        Instant instant = Instant.parse(utcTime);
+        return Date.from(instant);
+    }
+
+    /**
+     * 将系统默认时区的时间转换为指定UTC时区的对应时间
+     */
+    public static Date convertFromSystemTime(Date dateTime, String utcTime){
+        if(Objects.isNull(dateTime)){
+            return null;
+        }
+        ZonedDateTime uTime = Instant.ofEpochMilli(dateTime.getTime())
+                .atZone(ZoneId.of(utcTime));
+        return getDateTime(formatLocalDateTime(uTime.toLocalDateTime()
+                , DateFormat.y_m_d_hms.getFt())
+        );
+    }
+
+    /**
+     * 将指定时区的时间转换为当前系统默认时区的对应时间
+     */
+    public static Date convertToSystemTime(Date dateTime, String utcTime){
+        if(Objects.isNull(dateTime)){
+            return null;
+        }
+        LocalDateTime time = dateToLocalDateTime(dateTime);
+        ZonedDateTime usDateTime = ZonedDateTime.of(time, ZoneId.of(utcTime));
+        return Date.from(usDateTime.toInstant());
     }
 }

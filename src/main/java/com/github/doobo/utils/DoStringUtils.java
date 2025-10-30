@@ -1,12 +1,14 @@
 package com.github.doobo.utils;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+@Slf4j
 public abstract class DoStringUtils {
 
     private static char[] digits = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
@@ -306,6 +308,10 @@ public abstract class DoStringUtils {
         return sha(src, null);
     }
 
+    public static String sha256(String src){
+        return sha(src, "SHA-256");
+    }
+
     public static char[] encodeHex(byte[] data) {
         if(Objects.isNull(data)){
             return new char[0];
@@ -352,5 +358,53 @@ public abstract class DoStringUtils {
         } catch (ClassCastException var3) {
             throw new IllegalArgumentException(var3.getMessage());
         }
+    }
+
+    public static String md5Hex(String inputString) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(inputString.getBytes());
+            byte[] digest = md.digest();
+            return encodeHexString(digest);
+        } catch (Exception e) {
+            log.error("md5Hex error:{}", inputString, e);
+        }
+        return null;
+    }
+
+    /**
+     * 将驼峰式字符串转换为下划线命名（如：userName -> user_name）
+     * @param camelCaseStr 驼峰式字符串
+     * @return 下划线命名字符串
+     */
+    public static String camelToUnderline(String camelCaseStr) {
+        if (camelCaseStr == null || camelCaseStr.isEmpty()) {
+            return camelCaseStr;
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < camelCaseStr.length(); i++) {
+            char currentChar = camelCaseStr.charAt(i);
+            if (Character.isUpperCase(currentChar)) {
+                // 在大写字母前添加下划线，并转为小写
+                result.append('_').append(Character.toLowerCase(currentChar));
+            } else {
+                result.append(currentChar);
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 生成带横线的UUID（36位）
+     */
+    public static String getUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * 生成不带横线的UUID（32位）
+     */
+    public static String getCompactUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

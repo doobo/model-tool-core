@@ -11,7 +11,7 @@
  <dependency>
    <groupId>com.github.doobo</groupId>
    <artifactId>model-tool-core</artifactId>
-   <version>1.2</version>
+   <version>1.3</version>
  </dependency>
 ```
 

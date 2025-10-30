@@ -24,8 +24,8 @@ public abstract class SpringReflectionUtils {
     private static final String CGLIB_RENAMED_METHOD_PREFIX = "CGLIB$";
     private static final Method[] NO_METHODS = new Method[0];
     private static final Field[] NO_FIELDS = new Field[0];
-    private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentReferenceHashMap(256);
-    private static final Map<Class<?>, Field[]> declaredFieldsCache = new ConcurrentReferenceHashMap(256);
+    private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentReferenceHashMap<>(256);
+    private static final Map<Class<?>, Field[]> declaredFieldsCache = new ConcurrentReferenceHashMap<>(256);
     public static final SpringReflectionUtils.MethodFilter NON_BRIDGED_METHODS = new SpringReflectionUtils.MethodFilter() {
         public boolean matches(Method method) {
             return !method.isBridge();

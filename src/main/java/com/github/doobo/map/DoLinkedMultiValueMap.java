@@ -1,31 +1,24 @@
 package com.github.doobo.map;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-@Deprecated
-public class LinkedMultiValueMap<K, V> implements DoMultiValueMap<K, V>, Serializable, Cloneable {
+public class DoLinkedMultiValueMap<K, V> implements DoMultiValueMap<K, V>, Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
 
     private final Map<K, List<V>> targetMap;
 
-    public LinkedMultiValueMap() {
-        this.targetMap = new LinkedHashMap();
+    public DoLinkedMultiValueMap() {
+        this.targetMap = new LinkedHashMap<>();
     }
 
-    public LinkedMultiValueMap(int initialCapacity) {
-        this.targetMap = new LinkedHashMap(initialCapacity);
+    public DoLinkedMultiValueMap(int initialCapacity) {
+        this.targetMap = new LinkedHashMap<>(initialCapacity);
     }
 
-    public LinkedMultiValueMap(Map<K, List<V>> otherMap) {
-        this.targetMap = new LinkedHashMap(otherMap);
+    public DoLinkedMultiValueMap(Map<K, List<V>> otherMap) {
+        this.targetMap = new LinkedHashMap<>(otherMap);
     }
 
     public void add(K key, V value) {
@@ -34,7 +27,6 @@ public class LinkedMultiValueMap<K, V> implements DoMultiValueMap<K, V>, Seriali
             values = new LinkedList();
             this.targetMap.put(key, values);
         }
-
         ((List)values).add(value);
     }
 
@@ -118,8 +110,8 @@ public class LinkedMultiValueMap<K, V> implements DoMultiValueMap<K, V>, Seriali
         return this.targetMap.entrySet();
     }
 
-    public LinkedMultiValueMap<K, V> deepCopy() {
-        LinkedMultiValueMap<K, V> copy = new LinkedMultiValueMap(this.targetMap.size());
+    public DoLinkedMultiValueMap<K, V> deepCopy() {
+        DoLinkedMultiValueMap<K, V> copy = new DoLinkedMultiValueMap(this.targetMap.size());
         Iterator var2 = this.targetMap.entrySet().iterator();
 
         while(var2.hasNext()) {
@@ -130,8 +122,8 @@ public class LinkedMultiValueMap<K, V> implements DoMultiValueMap<K, V>, Seriali
         return copy;
     }
 
-    public LinkedMultiValueMap<K, V> clone() {
-        return new LinkedMultiValueMap(this);
+    public DoLinkedMultiValueMap<K, V> clone() {
+        return new DoLinkedMultiValueMap(this);
     }
 
     public boolean equals(Object obj) {

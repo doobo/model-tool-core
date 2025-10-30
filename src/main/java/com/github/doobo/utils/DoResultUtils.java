@@ -176,7 +176,7 @@ public abstract class DoResultUtils {
         return tDoTemplate;
     }
 
-    public static DoTemplate<Boolean> of(int effectedNum) {
+    public static DoTemplate<Boolean> ofInt(int effectedNum) {
         if (effectedNum > 0) {
             return of(Boolean.TRUE);
         }

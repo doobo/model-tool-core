@@ -34,9 +34,9 @@
     </developers>
 
     <properties>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <logback.version>1.2.11</logback.version>
+        <logback.version>1.5.19</logback.version>
         <java.version>1.8</java.version>
         <javadoc.version>8</javadoc.version>
         <surefire-plugin.version>2.20</surefire-plugin.version>
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -92,14 +92,14 @@
         <repository>
             <id>oss</id>
             <url>
-                https://oss.sonatype.org/service/local/staging/deploy/maven2
+                https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2
             </url>
         </repository>
         <snapshotRepository>
             <id>oss</id>
             <uniqueVersion>false</uniqueVersion>
             <url>
-                https://oss.sonatype.org/content/repositories/snapshots
+                https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots
             </url>
         </snapshotRepository>
     </distributionManagement>
@@ -183,6 +183,15 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>oss</publishingServerId>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
@@ -219,6 +228,7 @@
                     <checkModificationExcludes>
                         <checkModificationExclude>.gitignore</checkModificationExclude>
                         <checkModificationExclude>install.sh</checkModificationExclude>
+                        <checkModificationExclude>install.bat</checkModificationExclude>
                         <checkModificationExclude>pom.xml</checkModificationExclude>
                         <checkModificationExclude>README.md</checkModificationExclude>
                     </checkModificationExcludes>
@@ -266,7 +276,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>8</source>
+                    <source>${java.version}</source>
                     <links>
                         <link>
                             http://docs.oracle.com/javase/${javadoc.version}/docs/api
