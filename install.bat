@@ -1,4 +1,8 @@
 @echo off
+:: 设置 JAVA_HOME（Windows 路径使用反斜杠 \）
+set JAVA_HOME="C:\users\Administrator\.jdks\ms-17.0.17"
+:: 添加到 PATH
+set PATH=%JAVA_HOME%\bin;%PATH%
 :: 验证变量
 echo JAVA_HOME: %JAVA_HOME%
 java -version
