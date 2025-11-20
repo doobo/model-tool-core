@@ -1,20 +1,26 @@
 package com.github.doobo.model;
 
+import com.github.doobo.annotation.Internationalized;
+import com.github.doobo.annotation.Translatable;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Internationalized
 public class DoTemplate<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Integer state = 1;
 
+    @Translatable
     private String message;
 
     private String code;
 
     private String subCode;
 
+    @Translatable
     private String subMsg;
 
     /**
